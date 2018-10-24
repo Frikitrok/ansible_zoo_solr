@@ -1,0 +1,3 @@
+---
+zoo_version: 'zookeeper-3.4.13'
+zoo_link: "http://www-us.apache.org/dist/zookeeper/{{ zoo_version }}/{{ zoo_version }}.tar.gz"

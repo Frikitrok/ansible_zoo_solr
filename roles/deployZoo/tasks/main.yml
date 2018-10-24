@@ -1,0 +1,8 @@
+---
+- import_tasks: install_zoo.yml
+  become: true
+  vars:
+    zoo_id: "{{ host_list.index(inventory_hostname) }}"
+#  loop: "{{ host_list }}"
+#  loop_control:
+#    index_var: my_idx

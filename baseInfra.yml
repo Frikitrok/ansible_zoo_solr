@@ -1,0 +1,12 @@
+---
+- name: Deploy base infrastructure
+  hosts: "{{ baseHosts }}"
+  roles:
+    - role: installJava
+    - role: deployZoo
+    - role: deploySolr
+
+  vars:
+    host_list: "{{ baseHosts.split(',') }}"
+    zoo_nodes: "{{ baseHosts.split(',') }}"
+    solr_replicas: "{{ baseHosts.split(',') }}"

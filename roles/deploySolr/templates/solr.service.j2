@@ -1,0 +1,15 @@
+#jinja2: trim_blocks:False
+[Unit]
+Description=Solr Service
+Requires=zookeeper.service
+After=zookeeper.service
+
+[Service]
+Type=forking
+User=solr
+ExecStart=/opt/solr/bin/solr start -c -z {% for server in host_list %}{{ hostvars[server]['ansible_facts']['hostname'] }}:2181{{ "," if not loop.last else '' }}{% endfor %}
+ExecStop=/opt/solr/bin/solr stop -all
+ExecReload=/opt/solr/bin/solr restart
+
+[Install]
+WantedBy=default.target

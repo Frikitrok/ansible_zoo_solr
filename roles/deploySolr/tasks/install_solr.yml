@@ -1,0 +1,34 @@
+---
+- name: 'get package'
+  uri: 
+    url: "{{ solr_link }}"
+    method: POST
+    dest: /opt
+
+- name: 'unpack'
+  unarchive:
+    src: /opt/solr-{{ solr_version }}.tgz
+    dest: /opt/
+    remote_src: yes
+
+- name: 'manage dir'
+  shell: |
+    mv /opt/solr-{{ solr_version }} /opt/solr
+    useradd -c "solr user" -r -s /bin/false solr
+    chown -R solr:solr /opt/solr
+    rm -rf /opt/solr-{{ solr_version }}.tgz
+    rm -rf /opt/solr-{{ solr_version }}
+
+- name: 'install solr service'
+  template:
+    src: "solr.service.j2"
+    dest: "/etc/systemd/system/solr.service"
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: 'run solr'
+  shell: |
+    systemctl daemon-reload
+    systemctl enable solr
+    systemctl start solr

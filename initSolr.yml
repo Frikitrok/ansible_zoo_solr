@@ -1,0 +1,56 @@
+---
+- name: Init solr
+  hosts: "{{ solrHost }}"
+  tasks:
+    - name: Copy template
+      become: yes  
+      shell: |
+        mkdir -p /opt/solr/collections/dcat
+        cp -r /opt/solr/example/solr/collection1/conf/* /opt/solr/collections/dcat
+
+    - name: Copy schema
+      become: yes
+      copy:
+        src: ./conf/schema.xml
+        dest: /opt/solr/collections/dcat
+
+    - name: Change permissions
+      become: yes
+      shell: chown -R solr:solr /opt/solr/collections
+  
+    - name: Move collection files to zookeeper
+      shell: >
+        java -Dlog4j.configuration=file:/opt/solr/example/scripts/cloud-scripts/log4j.properties 
+        -classpath /opt/solr/example/solr-webapp/webapp/WEB-INF/lib/*:/opt/solr/example/lib/ext/* 
+        org.apache.solr.cloud.ZkCLI -cmd upconfig -zkhost localhost:2181 -confdir /opt/solr/collections/dcat -confname dcat
+      register: ps
+    - debug: 
+        var: ps
+
+    - name: Remove default collection
+      uri: 
+        url: "http://localhost:8983/solr/admin/collections?action=DELETE&name=collection1"
+        method: GET
+        return_content: yes
+      register: delete
+    - debug: 
+        var: delete
+
+    - name: Create collection
+      uri: 
+        url: "http://localhost:8983/solr/admin/collections?action=CREATE&name=dcat&replicationFactor=3&numShards=1&collection.configName=dcat"
+        method: GET
+        return_content: yes
+      register: data
+    - debug: 
+        var: data
+
+
+    - name: Restart solr
+      become: yes
+      service:
+        name: solr
+        state: restarted
+
+
+

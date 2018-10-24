@@ -1,0 +1,8 @@
+---
+- name: 'install java'
+  apt:
+    name: openjdk-8-jdk
+    update_cache: yes
+
+- name: 'echo java home'
+  shell: echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/' >> /etc/profile.d/java.sh
