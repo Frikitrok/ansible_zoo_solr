@@ -4,8 +4,8 @@
 
 ## Ansible example command
 ```
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i 52.34.69.230,34.210.244.68,54.71.200.23, baseInfra.yml --key-file ~/.ssh/ENDALI_dev.pem -e baseHosts=52.34.69.230,34.210.244.68,54.71.200.23 -u ubuntu
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i 52.34.69.230, initSolr.yml --key-file ~/.ssh/ENDALI_dev.pem -e solrHost=52.34.69.230 -u ubuntu
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i 52.34.69.230,34.210.244.68,54.71.200.23, baseInfra.yml --key-file ~/.ssh/ssh.pem -e baseHosts=52.34.69.230,34.210.244.68,54.71.200.23 -u ubuntu
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i 52.34.69.230, initSolr.yml --key-file ~/.ssh/ssh.pem -e solrHost=52.34.69.230 -u ubuntu
 ```
 ## Some usefull commands to manage by hands:
 ### Solr:
