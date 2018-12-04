@@ -1,8 +1,27 @@
 ---
+- debug: 
+    var: ansible_distribution
+
 - name: 'install java'
   apt:
     name: openjdk-8-jdk
     update_cache: yes
+  when: ansible_distribution == 'Debian'
+
+- name: 'install java'
+  yum:
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages:
+    - java-1.8.0-openjdk
+    - java-1.8.0-openjdk-devel
+  when: ansible_distribution == 'Amazon'  
 
 - name: 'echo java home'
   shell: echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/' >> /etc/profile.d/java.sh
+  when: ansible_distribution == 'Debian'
+
+- name: 'echo java home'
+  shell: echo 'export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk/' >> /etc/environment
+  when: ansible_distribution == 'Amazon'
