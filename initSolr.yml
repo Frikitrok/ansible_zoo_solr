@@ -38,7 +38,7 @@
 
     - name: Create collection
       uri: 
-        url: "http://localhost:8983/solr/admin/collections?action=CREATE&name=dcat&replicationFactor=3&numShards=1&collection.configName=dcat"
+        url: "http://localhost:8983/solr/admin/collections?action=CREATE&name=dcat&replicationFactor=1&numShards=1&property.name=dcat&collection.configName=dcat"
         method: GET
         return_content: yes
       register: data

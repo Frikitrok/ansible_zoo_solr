@@ -6,7 +6,7 @@
   apt:
     name: openjdk-8-jdk
     update_cache: yes
-  when: ansible_distribution == 'Debian'
+  when: ansible_distribution == 'Ubuntu'
 
 - name: 'install java'
   yum:
@@ -20,7 +20,7 @@
 
 - name: 'echo java home'
   shell: echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/' >> /etc/profile.d/java.sh
-  when: ansible_distribution == 'Debian'
+  when: ansible_distribution == 'Ubuntu'
 
 - name: 'echo java home'
   shell: echo 'export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk/' >> /etc/environment
